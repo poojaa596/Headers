@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cascading Dropdown in Header</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+        .header {
+            background: #2db2f0;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .dropdowns {
+            display: flex;
+            gap: 15px;
+        }
+        .dropdowns label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .dropdowns select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+            cursor: pointer;
+        }
+        .dropdowns select:focus {
+            outline: none;
+            border-color: #1abc9c;
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>My Website</h1>
+        <div class="dropdowns">
+            <label for="country">Country:</label>
+            <select id="country" onchange="loadStates()">
+                <option value="">Select Country</option>
+                <option value="USA">USA</option>
+                <option value="India">India</option>
+                <option value="Canada">Canada</option>
+            </select>
+
+            <label for="state">State:</label>
+            <select id="state" onchange="loadCities()">
+                <option value="">Select State</option>
+            </select>
+
+            <label for="city">City:</label>
+            <select id="city">
+                <option value="">Select City</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Welcome to My Website</h2>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // Data for states and cities
+        const data = {
+            USA: {
+                California: ["Los Angeles", "San Francisco", "San Diego"],
+                Texas: ["Houston", "Dallas", "Austin"],
+                NewYork: ["New York City", "Buffalo", "Rochester"]
+            },
+            India: {
+                Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+                Karnataka: ["Bangalore", "Mysore", "Hubli"],
+                TamilNadu: ["Chennai", "Coimbatore", "Madurai"]
+            },
+            Canada: {
+                Ontario: ["Toronto", "Ottawa", "Mississauga"],
+                Quebec: ["Montreal", "Quebec City", "Laval"],
+                BritishColumbia: ["Vancouver", "Victoria", "Surrey"]
+            }
+        };
+
+        // Load states based on selected country
+        function loadStates() {
+            const country = document.getElementById('country').value;
+            const stateDropdown = document.getElementById('state');
+            const cityDropdown = document.getElementById('city');
+            const resultDiv = document.getElementById('result');
+
+            // Clear previous options
+            stateDropdown.innerHTML = '<option value="">Select State</option>';
+            cityDropdown.innerHTML = '<option value="">Select City</option>';
+            resultDiv.textContent = '';
+
+            if (country) {
+                const states = Object.keys(data[country]);
+                states.forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state;
+                    option.textContent = state;
+                    stateDropdown.appendChild(option);
+                });
+            }
+        }
+
+        // Load cities based on selected state
+        function loadCities() {
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const cityDropdown = document.getElementById('city');
+            const resultDiv = document.getElementById('result');
+
+            // Clear previous options
+            cityDropdown.innerHTML = '<option value="">Select City</option>';
+            resultDiv.textContent = '';
+
+            if (country && state) {
+                const cities = data[country][state];
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    cityDropdown.appendChild(option);
+                });
+            }
+        }
+
+        // Display selected values
+        document.getElementById('city').addEventListener('change', function () {
+            const country = document.getElementById('country').value;
+            const state = document.getElementById('state').value;
+            const city = this.value;
+            const resultDiv = document.getElementById('result');
+
+            if (country && state && city) {
+                resultDiv.textContent = `You selected: ${city}, ${state}, ${country}`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicinal Plants</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color:whitesmoke;
+            color: rgb(27, 190, 127);
+            padding: 1em 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        header .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        header .logo-container img {
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        header nav {
+            display: flex; /* Display sections */
+            flex-direction: row; /* Horizontal layout for sections */
+            align-items: center;
+            justify-content: center; /* Center sections horizontally */
+            width: 100%;
+            margin-bottom: 10px; /* Add space below sections */
+        }
+
+        header nav a {
+            color: rgb(50, 48, 48);
+            text-decoration: none;
+            margin: 0 15px; /* Spacing between section links */
+            font-weight: bold;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+            color: #56d29e;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            justify-content: center; /* Center the search bar */
+        }
+
+        .search-container input {
+            width: 50%; /* Adjust width of search input */
+            padding: 5px;
+            border: none;
+            border-bottom: 2px solid white;
+            background-color: transparent;
+            color: rgb(18, 19, 19);
+        }
+
+        .search-container button {
+            background-color: transparent;
+            color: rgb(123, 176, 168);
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .plant-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            background-color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 80%;
+            margin-bottom: 20px;
+        }
+
+        .plant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .plant-card img {
+            max-width: 20%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .plant-details {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            width: 100%;
+        }
+
+        #introduction, #plants, #plantcare {
+            padding-top: 50px;
+            margin-top: -50px;
+            padding: 20px;
+            width: 80%;
+            align-self: center;
+        }
+
+        .plant-care-tips {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            width: 80%;
+        }
+
+        .care-tip {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .care-tip:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .care-tip h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+
+        .care-tip p {
+            margin: 0;
+        }
+
+        .back-to-top {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function toggleDetails(id) {
+            var details = document.getElementById(id);
+            if (details.style.display === "block") {
+                details.style.display = "none";
+            } else {
+                details.style.display = "block";
+            }
+        }
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.querySelector('.back-to-top').style.display = "block";
+            } else {
+                document.querySelector('.back-to-top').style.display = "none";
+            }
+        };
+
+        function searchPlant() {
+            var searchTerm = document.querySelector('.search-container input').value.toLowerCase();
+            var plantCards = document.querySelectorAll('.plant-card');
+
+            plantCards.forEach(card => {
+                var plantName = card.querySelector('h2').textContent.toLowerCase();
+                if (plantName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="https://img.freepik.com/free-vector/hospital-logo-design-vector-medical-cross_53876-136743.jpg" alt="Logo">
+            <h1>Medicinal Plants and Their Uses</h1>
+        </div>
+        <nav>
+            <a href="#introduction">Introduction</a>
+            <a href="#plants">Medicinal Plants</a>
+            <a href="#plantcare">Plant Care</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" placeholder="Search for a plant...">
+            <button onclick="searchPlant()">🔍</button>
+        </div>
+    </header>
+
+    <section id="introduction">
+        <h2>Introduction</h2>
+        <p>For centuries, humans have relied on the healing properties of plants. This website explores some of the most common and beneficial medicinal plants, providing information on their uses and traditional applications. It's important to remember that while these plants have shown promise in various studies, they should not replace professional medical advice. Always consult with a healthcare provider before using medicinal plants for treatment.This website is purely for education purpose.</p>
+    </section>
+
+    <main class="main-content" id="plants">
+        <div class="plant-card" onclick="toggleDetails('aloe')">
+            <img src="https://m.media-amazon.com/images/I/41b80Wp0xOL._AC_UF1000,1000_QL80_.jpg" alt="Aloe Vera">
+            <h2>Aloe Vera</h2>
+            <div class="plant-details" id="aloe">
+                <p><strong>Uses:</strong> Soothes burns, heals wounds, moisturizes skin.</p>
+            </div>
+        </div>
+
+        <div class="plant-card" onclick="toggleDetails('turmeric')">
+            <img src="https://rukminim3.flixcart.com/image/850/1000/xif0q/plant-seed/f/c/q/20-turmeric-root-dia-original-imahf9hhg5a42ta9.jpeg?q=90&crop=false" alt="Turmeric">
+            <h2>Turmeric</h2>
+            <div class="plant-details" id="turmeric">
+                <p><strong>Uses:</strong> Anti-inflammatory, antioxidant, aids digestion.</p>
+            </div>
+        </div>
+
+        <div class="plant-card" onclick="toggleDetails('ginger')">
+            <img src="https://ftn-image.s3-eu-west-1.amazonaws.com/ingredients/ginger-1.png" alt="Ginger">
+            <h2>Ginger</h2>
+            <div class="plant-details" id="ginger">
+                <p><strong>Uses:</strong> Relieves nausea, reduces muscle pain, improves circulation.</p>
+            </div>
+        </div>
+
+        <div class="plant-card" onclick="toggleDetails('peppermint')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9txrfX7bUL9z1VNGvWUhtlBr8_MbPaPQmgA&s" alt="Peppermint">
+            <h2>Peppermint</h2>
+            <div class="plant-details" id="peppermint">
+                <p><strong>Uses:</strong> Relieves headaches, soothes digestive issues, freshens breath.</p>
+            </div>
+        </div>
+
+        <div class="plant-card" onclick="toggleDetails('lavender')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeeCVlckfXhJJyN5-ZVPYS9KgX_hnXR03sTw&s" alt="Lavender">
+            <h2>Lavender</h2>
+            <div class="plant-details" id="lavender">
+                <p><strong>Uses:</strong> Relaxation, reduces stress, promotes sleep.</p>
+            </div>
+        </div>
+        <div class="plant-card" onclick="toggleDetails('teaTree')">
+            <img src="https://theskinsciencecompany.com.au/cdn/shop/files/tea-tree-essential-oil-577659_grande.jpg?v=1718847515" alt="Tea Tree">
+            <h2>Tea Tree</h2>
+            <div class="plant-details" id="teaTree">
+                <p><strong>Uses:</strong> Antiseptic, treats acne, fungal infections.</p>
+            </div>
+        </div>
+        <div class="plant-card" onclick="toggleDetails('garlic')">
+            <img src="https://en-chatelaine.mblycdn.com/ench/resized/2014/01/w767/head-of-garlic-e1389892676591.jpg" alt="Garlic">
+            <h2>Garlic</h2>
+            <div class="plant-details" id="garlic">
+                <p><strong>Uses:</strong> Immune boost, lowers cholesterol, antibacterial.</p>
+            </div>
+        </div>
+        <div class="plant-card" onclick="toggleDetails('basil')">
+            <img src="https://www.veggycation.com.au/siteassets/veggycationvegetable/basil.jpg" alt="Basil">
+            <h2>Basil</h2>
+            <div class="plant-details" id="basil">
+                <p><strong>Uses:</strong> Digestive aid, anti-inflammatory, stress relief.</p>
+            </div>
+        </div>
+        <div class="plant-card" onclick="toggleDetails('rosemary')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH2bCjgYgRPjo84PMJaXcdySoMEM7Awfg-pSf3J_hNmSP55WONCbtJMKF2VW88QR35fa8&usqp=CAU" alt="Rosemary">
+            <h2>Rosemary</h2>
+            <div class="plant-details" id="rosemary">
+                <p><strong>Uses:</strong> Memory boost, hair growth, pain relief.</p>
+            </div>
+        </div>
+       
+        <div class="plant-card" onclick="toggleDetails('thyme')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpsFacu1z_FkAoofwx9pCEEiqPjVulD4MsK63mp5yWm3zg0_ojYCxV5DfrYxesNQYGd40&usqp=CAU" alt="Thyme">
+            <h2>Thyme</h2>
+            <div class="plant-details" id="thyme">
+                <p><strong>Uses:</strong> Cough suppressant, antiseptic, mood booster.</p>
+            </div>
+        </div>
+    </main>
+
+    <section id="plantcare">
+        <h2>Plant Care Tips</h2>
+        <div class="plant-care-tips">
+            <div class="care-tip">
+                <h3>Watering</h3>
+                <p>Ensure your plants receive the right amount of water. Overwatering can lead to root rot, while underwatering can cause dehydration.</p>
+            </div>
+            <div class="care-tip">
+                <h3>Sunlight</h3>
+                <p>Most medicinal plants thrive in well-lit areas. Ensure they get at least 6 hours of sunlight daily.</p>
+            </div>
+            <div class="care-tip">
+                <h3>Soil</h3>
+                <p>Use well-draining soil to prevent waterlogging. Adding organic compost can improve soil fertility.</p>
+            </div>
+            
+            <div class="care-tip">
+                <h3>Pest Control</h3>
+                <p>Use natural pest control methods like neem oil or insecticidal soap to keep pests at bay.</p>
+            </div>
+            <div class="care-tip">
+                <h3>Fertilization</h3>
+                <p>Feed your plants with organic fertilizers to promote healthy growth and enhance their medicinal properties.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Medicinal Plants. All rights reserved.</p>
+    </footer>
+
+    <a href="#" class="back-to-top">↑</a>
+
+</body>
+</html>

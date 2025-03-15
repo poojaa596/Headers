@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            padding: 20px;
+            margin-bottom: 70px; /* Space for bottom navigation */
+        }
+        .book {
+            background: white;
+            padding: 15px;
+            margin: 10px;
+            display: inline-block;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .book:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .book h3 {
+            margin: 0 0 10px;
+            font-size: 1.2em;
+        }
+        .book p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #777;
+        }
+        .book button {
+            background: #1abc9c;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .book button:hover {
+            background: #16a085;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .bottom-nav button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 10px 20px;
+            transition: color 0.3s;
+        }
+        .bottom-nav button:hover {
+            color: #1abc9c;
+        }
+        .favorite {
+            background: #f1c40f;
+        }
+        .favorite:hover {
+            background: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="content">
+        <h1>Welcome to the Book Store</h1>
+        <div class="book">
+            <h3>The Great Gatsby</h3>
+            <p>F. Scott Fitzgerald</p>
+            <button onclick="addToFavorites('The Great Gatsby', 'F. Scott Fitzgerald')">Add to Favorites</button>
+        </div>
+        <div class="book">
+            <h3>To Kill a Mockingbird</h3>
+            <p>Harper Lee</p>
+            <button onclick="addToFavorites('To Kill a Mockingbird', 'Harper Lee')">Add to Favorites</button>
+        </div>
+        <div class="book">
+            <h3>1984</h3>
+            <p>George Orwell</p>
+            <button onclick="addToFavorites('1984', 'George Orwell')">Add to Favorites</button>
+        </div>
+        <div class="book">
+            <h3>Pride and Prejudice</h3>
+            <p>Jane Austen</p>
+            <button onclick="addToFavorites('Pride and Prejudice', 'Jane Austen')">Add to Favorites</button>
+        </div>
+        <div class="book">
+            <h3>Moby-Dick</h3>
+            <p>Herman Melville</p>
+            <button onclick="addToFavorites('Moby-Dick', 'Herman Melville')">Add to Favorites</button>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button onclick="showContent('home')">Home</button>
+        <button onclick="showContent('favorites')">Favorites</button>
+        <button onclick="showContent('profile')">Profile</button>
+    </div>
+
+    <script>
+        let favorites = [];
+
+        function showContent(section) {
+            const content = document.getElementById('content');
+            if (section === 'home') {
+                content.innerHTML = `
+                    <h1>Welcome to the Book Store</h1>
+                    <div class='book'>
+                        <h3>The Great Gatsby</h3>
+                        <p>F. Scott Fitzgerald</p>
+                        <button onclick="addToFavorites('The Great Gatsby', 'F. Scott Fitzgerald')">Add to Favorites</button>
+                    </div>
+                    <div class='book'>
+                        <h3>To Kill a Mockingbird</h3>
+                        <p>Harper Lee</p>
+                        <button onclick="addToFavorites('To Kill a Mockingbird', 'Harper Lee')">Add to Favorites</button>
+                    </div>
+                    <div class='book'>
+                        <h3>1984</h3>
+                        <p>George Orwell</p>
+                        <button onclick="addToFavorites('1984', 'George Orwell')">Add to Favorites</button>
+                    </div>
+                    <div class='book'>
+                        <h3>Pride and Prejudice</h3>
+                        <p>Jane Austen</p>
+                        <button onclick="addToFavorites('Pride and Prejudice', 'Jane Austen')">Add to Favorites</button>
+                    </div>
+                    <div class='book'>
+                        <h3>Moby-Dick</h3>
+                        <p>Herman Melville</p>
+                        <button onclick="addToFavorites('Moby-Dick', 'Herman Melville')">Add to Favorites</button>
+                    </div>
+                `;
+            } else if (section === 'favorites') {
+                if (favorites.length === 0) {
+                    content.innerHTML = `<h1>Your Favorite Books</h1><p>No favorites yet.</p>`;
+                } else {
+                    let favoriteBooks = favorites.map(book => `
+                        <div class='book'>
+                            <h3>${book.title}</h3>
+                            <p>${book.author}</p>
+                            <button class='favorite' onclick="removeFromFavorites('${book.title}')">Remove</button>
+                        </div>
+                    `).join('');
+                    content.innerHTML = `<h1>Your Favorite Books</h1>${favoriteBooks}`;
+                }
+            } else if (section === 'profile') {
+                content.innerHTML = `<h1>Profile</h1><p>Welcome to your profile!</p>`;
+            }
+        }
+
+        function addToFavorites(title, author) {
+            if (!favorites.some(book => book.title === title)) {
+                favorites.push({ title, author });
+                alert(`${title} added to favorites!`);
+            } else {
+                alert(`${title} is already in your favorites!`);
+            }
+        }
+
+        function removeFromFavorites(title) {
+            favorites = favorites.filter(book => book.title !== title);
+            showContent('favorites'); // Refresh the favorites section
+        }
+    </script>
+</body>
+</html>

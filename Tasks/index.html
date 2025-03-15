@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Variations: Styles & Uses</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Body */
+        body {
+            background: #0d0d0d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        /* Parallax Starry Background */
+        .stars, .stars2, .stars3 {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .stars {
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            animation: moveStars 100s linear infinite;
+        }
+
+        .stars2 {
+            background: url('https://www.transparenttextures.com/patterns/tiny-checkers.png');
+            opacity: 0.6;
+            animation: moveStars 150s linear infinite;
+        }
+
+        .stars3 {
+            background: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
+            opacity: 0.3;
+            animation: moveStars 200s linear infinite;
+        }
+
+        @keyframes moveStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100%); }
+        }
+
+        /* Title Section */
+        .title-container {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 40px;
+            color: #ffcc00;
+            font-size: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Grid Item */
+        .grid-item {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border-radius: 14px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Header Title */
+        .header-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 12px;
+        }
+
+        /* Description */
+        .description {
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        /* View Button */
+        .view-button {
+            display: inline-block;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #ff5733, #ffcc00);
+            color: #121212;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+
+        .view-button:hover {
+            background: linear-gradient(135deg, #ffcc00, #ff5733);
+            transform: scale(1.08);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Starry Background -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <!-- Title Section -->
+    <div class="title-container">Header Designs: A Complete Collection</div>
+
+    <!-- Grid Container -->
+    <div class="grid-container">
+        <div class="grid-item"><div class="header-title">Fixed Header</div><div class="description">Stays in place at the top of the screen when you scroll down the page</div><a href="1.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Single-Line Header With Left-Aligned Logo</div><div class="description">The logo is on the far-left side of the screen and the navigation menu is on the far-right.</div><a href="2.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Stack Center</div><div class="description">Ultra-simplistic header with sections at the center and will naviagte when clicked on the respective section</div><a href="3.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Side Navigation</div><div class="description">Positioned on the right edge of a webpage, providing secondary navigation elements and quick access to different sections or pages within a website</div><a href="4.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Overlay</div><div class="description">seamless integration of the header with the background content, creating a cohesive and visually appealing experience</div><a href="5.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Icon </div><div class="description">Headers with their sections and respetive icons with toggle functions to navigate </div><a href="6.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Search Bar</div><div class="description">Lets you find what you need immediately by typing in the search bar</div><a href="7.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Vertical Mobile Navbar</div><div class="description">Click on the hamburger menu  in the top left corner, to toggle the menu.</div><a href="8.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title"> Dropdown</div><div class="description">A dropdown menu providing context and clarity for the user on what options are available within the dropdown</div><a href="9.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Pagination</div><div class="description">Allows you to explore various pages in the website</div><a href="10.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Collapsed Sidebar</div><div class="description">  A navigation sidebar that can be hidden or reduced in size allowing  to save screen space and access content more efficiently</div><a href="11.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Curtain Menu</div><div class="description">Uses sliding layers like a pair of curtains to reveal content</div><a href="12.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Top Navigation</div><div class="description">Offer users a clear and easy way to explore the site's structure and content. </div><a href="13.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Bottom Navigation </div><div class="description">Allow users to switch between the main sections or views of an application</div><a href="14.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Navbar on Image</div><div class="description">Responsive they adapt to different screen sizes and devices. </div><a href="15.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Cascading Dropdown</div><div class="description">Allows to navigate through a large set of options by making selections in a series of dropdowns</div><a href="16.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title"> Breadcrumb Navigation</div><div class="description">provide links back to each previous page the user navigated through, and shows the user's current location in a website</div><a href="17.html"><button class="view-button">View</button></a></div>
+        <div class="grid-item"><div class="header-title">Icon Bar</div><div class="description">Quick access to commonly used functions by using the icons </div><a href="18.html"><button class="view-button">View</button></a></div>
+       
+       
+       
+       
+        <!-- Add more as needed -->
+    </div>
+
+</body>
+</html> 
